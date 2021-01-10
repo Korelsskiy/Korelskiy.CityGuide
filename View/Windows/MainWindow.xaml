@@ -1,0 +1,86 @@
+﻿<Window x:Class="Korelskiy.CityGuide.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Korelskiy.CityGuide.ViewModels"
+        xmlns:model ="clr-namespace:Korelskiy.CityGuide.Models.Guide"
+        xmlns:local="clr-namespace:Korelskiy.CityGuide"
+        mc:Ignorable="d"
+        Title="Справочник городов версия от 03.10.20.(17 регионов, 82 города)" Height="450" Width="800">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Опции">
+                <MenuItem Header="Выйти" Command="{Binding CloseApplicationCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Помощь"></MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem Content="@Korelskiy2020"></StatusBarItem>
+        </StatusBar>
+        <TabControl>
+            <TabItem Header="Города по субъектам">
+                <DockPanel>
+                    <GroupBox Width="200" Header="Субъекты РФ">
+                        <ListBox ItemsSource="{Binding States}" SelectedIndex="0" SelectedItem="{Binding SelectedState}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
+                    <GroupBox Header="Города">
+                        <DataGrid ItemsSource="{Binding SelectedState.Cities}"
+                          AutoGenerateColumns="False"
+                          GridLinesVisibility="Vertical"
+                          VerticalGridLinesBrush="DarkGray"
+                          AlternatingRowBackground="Beige">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header=" " Binding="{Binding id}"/>
+                                <DataGridTextColumn Header="Город" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Город с (год)" Binding="{Binding BecomeCity}"/>
+                                <DataGridTextColumn Header="Население на 2000г." Binding="{Binding Population_2000}"/>
+                                <DataGridTextColumn Header="Население на 2010г." Binding="{Binding Population_2010}"/>
+                                <DataGridTextColumn Header="Население на 2020г." Binding="{Binding Population_2020}"/>
+                                <DataGridTextColumn Header="Прирост за 20 лет(%)" Binding="{Binding Growth_2000_2020}"/>
+                                
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Все города РФ">
+                <GroupBox Header="Города">
+                    <DataGrid ItemsSource="{Binding AllCities}"
+                          AutoGenerateColumns="False"
+                          GridLinesVisibility="Vertical"
+                          VerticalGridLinesBrush="DarkGray"
+                          AlternatingRowBackground="Beige">
+                        
+             
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Город" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Город с (год)" Binding="{Binding BecomeCity}"/>
+                            <DataGridTextColumn Header="Население на 2000г." Binding="{Binding Population_2000}"/>
+                            <DataGridTextColumn Header="Население на 2010г." Binding="{Binding Population_2010}"/>
+                            <DataGridTextColumn Header="Население на 2020г." Binding="{Binding Population_2020}"/>
+                            <DataGridTextColumn Header="Прирост за 20 лет(%)" Binding="{Binding Growth_2000_2020}"/>
+                            <DataGridTextColumn Header="Субъект РФ" Binding="{Binding StateName}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+            </TabItem>
+        </TabControl>
+        
+    </DockPanel>
+</Window>
